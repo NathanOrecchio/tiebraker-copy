@@ -1,0 +1,24 @@
+<div>
+    <h2>{{ event_name }}</h2>
+    {% for age_division, teams in data.items() %}
+        <h3>{{ age_division }}</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Team</th>
+                    <th>Red Cards</th>
+                    <th>Yellow Cards</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for team in teams %}
+                    <tr>
+                        <td>{{ team.name }}</td>
+                        <td>{{ team.red_cards }}</td>
+                        <td>{{ team.yellow_cards }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endfor %}
+</div>

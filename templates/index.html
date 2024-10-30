@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-group">
+    <label for="tournament-select">Select Tournament:</label>
+    <select id="tournament-select" class="form-control" onchange="filterData()">
+        <option value="">-- Select a tournament --</option>
+        <option value="662a899da5509d7343eca861">2024 National Championships</option>
+        <option value="662a8c82926b2476e08dedef">2024 Showcase Series Nationals</option>
+        <option value="662a8da0926b2476e08dedf0">2024 World Futsal Championships, Orlando</option>
+    </select>
+</div>
+
+<div id="tournament-data" class="mt-4">
+    <p>Please Select Tournament</p>
+    {% for id, tournament in data.items() %}
+        <div id="tournament-{{ id }}" class="tournament-info" style="display:none;">
+            <h2>Tournament {{ id }}</h2>
+            {% for gender, age_groups in tournament.items() %}
+                <h3>{{ gender }}</h3>
+                {% for age_group, teams in age_groups.items() %}
+                    <h4>{{ age_group }}</h4>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Team</th>
+                                <th>Red Cards</th>
+                                <th>Yellow Cards</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for team in teams %}
+                                <tr>
+                                    <td>{{ team.name }}</td>
+                                    <td>{{ team.red_cards }}</td>
+                                    <td>{{ team.yellow_cards }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+
+<script>
+    function filterData() {
+        var select = document.getElementById("tournament-select");
+        var selectedValue = select.value;
+
+        var allTournaments = document.getElementsByClassName("tournament-info");
+        for (var i = 0; i < allTournaments.length; i++) {
+            allTournaments[i].style.display = "none";
+        }
+
+        if (selectedValue) {
+            var selectedTournament = document.getElementById("tournament-" + selectedValue);
+            if (selectedTournament) {
+                selectedTournament.style.display = "block";
+            }
+        } else {
+            document.getElementById("tournament-data").innerHTML = "<p>Please Select Tournament</p>";
+        }
+    }
+</script>
+{% endblock %}
